@@ -4,7 +4,7 @@ pipeline {
         upstream(upstreamProjects: 'UCSB-PSTAT GitHub/base-rstudio/main', threshold: hudson.model.Result.SUCCESS)
     }
     environment {
-        IMAGE_NAME = '<COURSE/IMAGE ID>'
+        IMAGE_NAME = 'comm160r'
         CONTAINER_REGISTRY  = 'registry.cloud.college.ucsb.edu'
     }
     stages {
@@ -41,7 +41,31 @@ pipeline {
                         container('podman') {
                             sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME which rstudio'
                             sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -q -e "getRversion() >= \\"4.5.2\\"" | tee /dev/stderr | grep -q "TRUE"'
-                            //sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"<library>\");library(\"<library>\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"broom\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"car\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"dplyr\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"effectsize\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"forcats\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"ggplot2\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"ggrepel\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"gt\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"gtsummary\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"haven\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"here\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"janitor\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"knitr\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"naniar\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"patchwork\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"purrr\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"quarto\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"readr\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"readxl\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"rmarkdown\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"scales\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"skimr\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"stringr\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"tidyr\")"'
+                            sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME R -e "library(\"tidyverse\")"'
                             sh 'podman run -it --rm --pull=never localhost/$IMAGE_NAME jupyter labextension list | grep "@jupyter-ai" | grep "@jupyter-ai.*enabled.*OK"'
                             sh 'podman run -d --name=$IMAGE_NAME --rm --pull=never -p 8888:8888 localhost/$IMAGE_NAME start-notebook.sh --NotebookApp.token="jenkinstest"'
                             retry (6) {
