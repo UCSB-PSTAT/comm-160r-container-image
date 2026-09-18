@@ -16,7 +16,8 @@ RUN mamba install -y -c conda-forge\
     r-naniar\
     r-skimr\
     r-quarto &&\
-    conda clean -afy
+    conda clean -afy &&\
+    /usr/local/bin/fix-permissions "${CONDA_DIR}" || true
 
 #RUN R -e "install.packages(c('<library>', '<library>'), repos = 'https://cloud.r-project.org/', Ncpus = parallel::detectCores())"
 
